@@ -18,6 +18,6 @@ public class LogMessageHandler extends MessageHandler {
     protected Object bizDetal(MessageBody request) {
         log.info("LogMessageHandler MessageBody={}", request.toString());
 
-        return request.getData() + ", 成功收到消息！我给你返回！";
+        return request.getData();
     }
 }

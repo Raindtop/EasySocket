@@ -44,4 +44,6 @@ public class BaseCons {
     public static final String REQUEST_ATTR_USERNAME = "username";
 
     public static final String REQUEST_ATTR_PASSWORD = "password";
+
+    public static final String DATE_FORMATE = "yyyy-MM-dd hh:mm:ss";
 }

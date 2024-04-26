@@ -95,7 +95,6 @@ public class MessageSender {
 
         EasySocketResonse resonse = new EasySocketResonse(messageBody);
         ResponseHolder.put(messageBody.getTraceId(), resonse);
-        log.info("1111");
         // 返回Response
         return resonse.get(Objects::nonNull);
     }

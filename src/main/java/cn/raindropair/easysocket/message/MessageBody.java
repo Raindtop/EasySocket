@@ -117,6 +117,11 @@ public class MessageBody {
         return OBJECT_MAPPER.readValue(jsonMessageBody, MessageBody.class);
     }
 
+    @SneakyThrows
+    public <T> T getData(Class<T> valueType) {
+        return OBJECT_MAPPER.readValue(OBJECT_MAPPER.writeValueAsString(this.data), valueType);
+    }
+
     public MessageBody() {
 
     }

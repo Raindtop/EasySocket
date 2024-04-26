@@ -116,7 +116,6 @@ public class ClientConfig {
                                 MessageBody messageBody = MessageBody.ok(BaseCons.BIZ_HEART, BaseCons.PING, key);
                                 MessageBody pongResponse = MessageSender.send(messageBody);
 
-                                System.out.println(pongResponse.toString());
                                 if (Objects.equals(pongResponse.getCode(), MessageBodyCon.REQUEST_CODE_FAIL)){
                                     log.error("Heart Beat connect fail");
                                     if (BaseCons.TIMEOUT_MSG.equals(pongResponse.getMsg())){

@@ -32,7 +32,6 @@ public class ReceiverMsgHandler extends TextWebSocketHandler {
         MessageBody messageBody;
         try {
             messageBody = MessageBody.conver(AESEncoder.decode(msg));
-            log.info("EasySocket receiver messageBody={}", messageBody);
             // 心跳检测
             if (messageBody.getBizType().equals(BaseCons.BIZ_HEART)) {
                 // 收到ping消息，返回pong
