@@ -3,6 +3,11 @@ package cn.raindropair.easysocket.message;
 import cn.raindropair.easysocket.exception.EasySocketException;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * @description 由于WebSocket是全双工，该类可以软设置为单工模式
+ * @Date 2024/6/1
+ * @Author raindrop
+ */
 public class WebSocketChannel {
     private String traceId = "";
 

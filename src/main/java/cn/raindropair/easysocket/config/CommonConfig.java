@@ -3,7 +3,7 @@ package cn.raindropair.easysocket.config;
 import cn.raindropair.easysocket.distribute.CustomWebSocketHandlerDecorator;
 import cn.raindropair.easysocket.handler.MessageHandler;
 import cn.raindropair.easysocket.handler.ReceiverMsgHandler;
-import cn.raindropair.easysocket.interceptor.QnzHandshakeInterceptor;
+import cn.raindropair.easysocket.interceptor.EasySocketHandshakeInterceptor;
 import cn.raindropair.easysocket.properites.EasySocketProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -46,22 +46,7 @@ public class CommonConfig implements ServletContextInitializer {
      */
     @Bean
     public HandshakeInterceptor handshakeInterceptor() {
-        return new QnzHandshakeInterceptor();
-    }
-
-    /**
-     * @param handshakeInterceptor
-     * @param webSocketHandler
-     * @return
-     */
-    @Bean
-    public WebSocketConfigurer webSocketConfigurer(List<HandshakeInterceptor> handshakeInterceptor,
-                                                   WebSocketHandler webSocketHandler,
-                                                   EasySocketProperties easySocketProperties) {
-        HandshakeInterceptor bizInterceptor = new QnzHandshakeInterceptor();
-        return registry -> registry.addHandler(webSocketHandler, easySocketProperties.getPath())
-                .setAllowedOrigins(easySocketProperties.getAllowOrigins())
-                .addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
+        return new EasySocketHandshakeInterceptor();
     }
 
     /**
@@ -69,15 +54,21 @@ public class CommonConfig implements ServletContextInitializer {
      */
     @Bean
     @ConditionalOnMissingBean({TextWebSocketHandler.class})
-    public WebSocketHandler clientReceiverMsgHandler() {
+    public WebSocketHandler webSocketHandler() {
         ReceiverMsgHandler serverReceiverMsgHandler = new ReceiverMsgHandler(messageHandlerMap);
         return new CustomWebSocketHandlerDecorator(serverReceiverMsgHandler);
     }
 
+    /**
+     * 配置最大接收缓存
+     *
+     * @param servletContext
+     * @throws ServletException
+     */
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("org.apache.tomcat.websocket.textBufferSize","52428800");
-        servletContext.setInitParameter("org.apache.tomcat.websocket.binaryBufferSize","52428800");
+        servletContext.setInitParameter("org.apache.tomcat.websocket.textBufferSize", "52428800");
+        servletContext.setInitParameter("org.apache.tomcat.websocket.binaryBufferSize", "52428800");
         servletContext.setInitParameter("org.apache.tomcat.websocket.DEFAULT_BUFFER_SIZE", "52428800");
     }
 }

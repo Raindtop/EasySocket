@@ -1,6 +1,7 @@
 package cn.raindropair.easysocket.client.socketclient;
 
 
+import cn.raindropair.easysocket.constants.BaseCons;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
@@ -27,6 +28,11 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.Callable;
 
+/**
+ * @description 
+ * @Date 2024/4/26
+ * @Author raindrop
+ */
 public class EasySocketWebSocketClient extends AbstractWebSocketClient {
 
     private final WebSocketContainer webSocketContainer;
@@ -107,9 +113,9 @@ public class EasySocketWebSocketClient extends AbstractWebSocketClient {
 
         // 缓存Key信息
         MultiValueMap<String, String> params = UriComponentsBuilder.fromUri(uri).build().getQueryParams();
-        String value = params.get("username").get(0);
+        String value = params.get(BaseCons.REQUEST_ATTR_USERNAME).get(0);
         attributes = new HashMap<>();
-        attributes.put("key" , value);
+        attributes.put(BaseCons.KEY , value);
 
         final StandardWebSocketSession session = new StandardWebSocketSession(headers,
                 attributes, localAddress, remoteAddress);

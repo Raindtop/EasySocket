@@ -53,6 +53,7 @@ public class MessageSender {
      * @param messageBody
      */
     public static MessageBody send(MessageBody messageBody) {
+        // 获取连接关键字
         String key = messageBody.getKey();
         if (StringUtils.isBlank(key)){
             throw new EasySocketException("客户端不能为空");
@@ -63,19 +64,24 @@ public class MessageSender {
             messageBody.setTraceId(TraceIdGenUtils.traceIdGen());
         }
 
+        // 获取连接
         WebSocketSession session = WebSessionHolder.getSession(key);
+
+        // 连接不存在
         if (session == null) {
             log.info("EasySocket send msg error. session null");
             messageBody.setMsg("连接地址失败");
             return messageBody;
         }
 
+        // 连接是否开启 是否有中断的情况
         if (!session.isOpen()){
             log.info("EasySocket send msg error. session close");
             messageBody.setMsg("连接地址失败");
             return messageBody;
         }
 
+        // 发送消息
         try {
             session.sendMessage(toTextMsg(messageBody));
         } catch (IOException e) {
@@ -88,14 +94,15 @@ public class MessageSender {
             return MessageBody.ok(BaseCons.BIZ_HEART, messageBody.getKey());
         }
 
-        // 返回不处理
+        // 返回消息不处理，不会将消息存入ResponseHolder中，不需要等待响应
         if (!messageBody.isRequestFlag()){
             return MessageBody.ok(BaseCons.BIZ_RESPONSE, messageBody.getKey());
         }
 
+        // 请求消息等待响应
         EasySocketResonse resonse = new EasySocketResonse(messageBody);
         ResponseHolder.put(messageBody.getTraceId(), resonse);
-        // 返回Response
+        // 返回Response，由于使用了请求等待，直接get就行，有消息就会返回
         return resonse.get(Objects::nonNull);
     }
 

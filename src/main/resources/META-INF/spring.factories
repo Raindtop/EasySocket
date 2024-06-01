@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.raindropair.easysocket.config.CommonConfig,\
   cn.raindropair.easysocket.config.ScheduledConfig,\
-  cn.raindropair.easysocket.config.ClientConfig
+  cn.raindropair.easysocket.config.ClientConfig,\
+  cn.raindropair.easysocket.config.ServerConfig

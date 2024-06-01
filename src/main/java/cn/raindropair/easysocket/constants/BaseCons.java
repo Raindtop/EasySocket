@@ -19,6 +19,12 @@ public class BaseCons {
 
     /**
      * 消息业务类型
+     * log 日志消息类型
+     */
+    public static final String BIZ_LOG = "log";
+
+    /**
+     * 消息业务类型
      * heart 响应
      */
     public static final String BIZ_RESPONSE = "response";

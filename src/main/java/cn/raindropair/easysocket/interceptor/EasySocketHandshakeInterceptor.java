@@ -19,7 +19,7 @@ import java.util.Objects;
  * @Author raindrop
  */
 @Slf4j
-public class QnzHandshakeInterceptor implements HandshakeInterceptor {
+public class EasySocketHandshakeInterceptor implements HandshakeInterceptor {
 
     /**
      * 握手认证

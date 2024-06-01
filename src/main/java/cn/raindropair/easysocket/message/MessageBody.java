@@ -24,7 +24,7 @@ public class MessageBody {
     private Integer code;
 
     /**
-     * 请求token
+     * 请求Key
      */
     private String key;
 
@@ -39,7 +39,7 @@ public class MessageBody {
     private Object data;
 
     /**
-     * 请求返回Key 请求返回值
+     * 唯一请求码
      */
     private String traceId;
 

@@ -1,7 +1,10 @@
 package cn.raindropair.easysocket.holder;
 
 import cn.raindropair.easysocket.constants.BaseCons;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @description SessionKey生成器
@@ -18,6 +21,7 @@ public class SessionKeyGen {
      */
     public static String genKey(WebSocketSession webSocketSession) {
         String key = (String) webSocketSession.getAttributes().get(BaseCons.KEY);
+
         return key;
     }
 }

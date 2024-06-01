@@ -3,6 +3,7 @@ package cn.raindropair.easysocket.distribute;
 import cn.raindropair.easysocket.holder.SessionKeyGen;
 import cn.raindropair.easysocket.holder.WebSessionHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
@@ -30,7 +31,9 @@ public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
     public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
         log.info("EastSocket connect success afterConnectionEstablished");
         String sessionKey = SessionKeyGen.genKey(session);
-        WebSessionHolder.putSession(sessionKey, session);
+        if (StringUtils.isNotBlank(sessionKey)){
+            WebSessionHolder.putSession(sessionKey, session);
+        }
     }
 
     /**
@@ -44,6 +47,9 @@ public class CustomWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
     public void afterConnectionClosed(final WebSocketSession session, CloseStatus closeStatus) throws Exception {
         log.info("EastSocket connect closed afterConnectionClosed");
         String sessionKey = SessionKeyGen.genKey(session);
-        WebSessionHolder.delSession(sessionKey);
+
+        if (StringUtils.isNotBlank(sessionKey)){
+            WebSessionHolder.putSession(sessionKey, session);
+        }
     }
 }

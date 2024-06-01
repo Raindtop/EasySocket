@@ -39,17 +39,18 @@ public class ClientConfig {
     /**
      * 客户端连接器
      * @param easySocketProperties
-     * @param clientReceiverMsgHandler
+     * @param webSocketHandler
      * @return
      */
     @Bean
-    public EasySocketConnectionManager client(EasySocketProperties easySocketProperties, WebSocketHandler clientReceiverMsgHandler){
+    public EasySocketConnectionManager client(EasySocketProperties easySocketProperties, WebSocketHandler webSocketHandler){
         WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
         Map<String,Object> userProperties = new HashMap<>();
+        // 连接超时时间
         userProperties.put(Constants.IO_TIMEOUT_MS_PROPERTY, "300000");
         EasySocketWebSocketClient webSocketClient = new EasySocketWebSocketClient(webSocketContainer);
         webSocketClient.setUserProperties(userProperties);
-        EasySocketConnectionManager client = new EasySocketConnectionManager(webSocketClient, clientReceiverMsgHandler, easySocketProperties.getClientPath());
+        EasySocketConnectionManager client = new EasySocketConnectionManager(webSocketClient, webSocketHandler, easySocketProperties.getClientPath());
 
         client.start();
         return client;

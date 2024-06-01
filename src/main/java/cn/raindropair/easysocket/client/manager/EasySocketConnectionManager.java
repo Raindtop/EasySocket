@@ -16,13 +16,9 @@ import org.springframework.web.socket.handler.LoggingWebSocketHandlerDecorator;
 import java.util.List;
 
 /**
- * A WebSocket connection manager that is given a URI, a {@link WebSocketClient}, and a
- * {@link WebSocketHandler}, connects to a WebSocket server through {@link #start()} and
- * {@link #stop()} methods. If {@link #setAutoStartup(boolean)} is set to {@code true}
- * this will be done automatically when the Spring ApplicationContext is refreshed.
- *
- * @author Rossen Stoyanchev
- * @since 4.0
+ * @description client客户端连接管理器，代码copy WebSocketConnectionManager，增加了判断连接是否可用的方法，用于实现断线重连功能。
+ * @Author raindrop
+ * @Date 2024/4/26
  */
 public class EasySocketConnectionManager extends ConnectionManagerSupport {
 
@@ -37,7 +33,7 @@ public class EasySocketConnectionManager extends ConnectionManagerSupport {
 
 
     public EasySocketConnectionManager(WebSocketClient client,
-                                      WebSocketHandler webSocketHandler, String uriTemplate) {
+                                       WebSocketHandler webSocketHandler, String uriTemplate) {
 
         super(uriTemplate);
         this.client = client;
@@ -130,11 +126,9 @@ public class EasySocketConnectionManager extends ConnectionManagerSupport {
             @Override
             public void onSuccess(@Nullable WebSocketSession result) {
                 webSocketSession = result;
-                String key = (String) webSocketSession.getAttributes().get("key");
-                WebSessionHolder.putSession(key, webSocketSession);
-
-                logger.info("Successfully connected key=" + key);
+                logger.info("Successfully connected");
             }
+
             @Override
             public void onFailure(Throwable ex) {
                 logger.error("Failed to connect", ex);
@@ -154,7 +148,7 @@ public class EasySocketConnectionManager extends ConnectionManagerSupport {
         return (this.webSocketSession != null && this.webSocketSession.isOpen());
     }
 
-    public boolean checkIsConnected(){
+    public boolean checkIsConnected() {
         return (this.webSocketSession != null && this.webSocketSession.isOpen());
     }
 }
